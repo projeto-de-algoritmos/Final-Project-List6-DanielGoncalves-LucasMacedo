@@ -50,6 +50,9 @@ class Item():
         self.pos_x = pos_x * SIZE + BORDER_THICKNESS
         self.pos_y = pos_y * SIZE + BORDER_THICKNESS
 
+        self.matrix_pos_x = pos_x
+        self.matrix_pos_y = pos_y
+
         self.width = SIZE - 2 * BORDER_THICKNESS
         self.height = SIZE - 2 * BORDER_THICKNESS
 
@@ -61,18 +64,26 @@ class Knapsack():
     def __init__(self, avaliable, pos_x, pos_y, color):
         self.items = []
         self.avaliable = avaliable
+        self.value = 0
 
         self.pos_x = pos_x
         self.pos_y = pos_y
 
-        self.width = SIZE
-        self.height = SIZE
+        self.width = SIZE - 2 * BORDER_THICKNESS
+        self.height = SIZE - 2 * BORDER_THICKNESS
 
         self.color = color
 
     def render(self, background):
         # renderizar mochila na parte direita
         pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
+        # TODO renderizar itens que estao na mochila ao lado da mochila
+        temp_pos_x = self.pos_x + SIZE
+        for item in self.items:
+            item.pos_y = self.pos_y
+            item.pos_x = temp_pos_x + 5
+            temp_pos_x += SIZE + 10
+            item.render(background)
 
 
 class NodeBorder():
@@ -137,6 +148,8 @@ class Maze():
 
         self.items = []
 
+        self.knapsack = Knapsack(random.randint(10, 30), 920, 400, BLUE)
+
         self.initialize_maze()
         self.define_initial_neighbors_not_visited()
 
@@ -156,11 +169,21 @@ class Maze():
     def generate_items(self):
         # funcao responsavel por criar os itens no labirinto, criar as 6 posicoes, 6 valores e 6 pesos e imagens
         # TODO: Imagem no lugar da cor e Nome
+        positions = []
+        positions.append((self.initial_coordinate_x, self.initial_coordinate_y))
+        positions.append((self.final_coordinate_x, self.final_coordinate_y))
+
         for i in range(6):
-            weight = random.randint(2, 30)
+            weight = random.randint(2, 15)
             value = random.randint(5, 50)
+
             pos_x = random.randint(0, int(WIDTH / SIZE) - 1)
             pos_y = random.randint(0, int(WIDTH / SIZE) - 1)
+            while (pos_x, pos_y) in positions:
+                pos_x = random.randint(0, int(WIDTH / SIZE) - 1)
+                pos_y = random.randint(0, int(WIDTH / SIZE) - 1)
+            positions.append((pos_x, pos_y))
+
             color = WHITE
             item = Item(weight, value, i + 1, color, pos_x, pos_y)
             self.items.append(item)
@@ -396,6 +419,22 @@ class Maze():
             player.render(background)
             pygame.display.update()
 
+    def take_item(self, item):
+        print("antes AVAILABLE")
+        print(self.knapsack.avaliable)
+        print("antes VALUE")
+        print(self.knapsack.value)
+
+        self.items.remove(item)
+        self.knapsack.items.append(item)
+        self.knapsack.avaliable -= item.weight
+        self.knapsack.value += item.value
+
+        print("AVAILABLE")
+        print(self.knapsack.avaliable)
+        print("VALUE")
+        print(self.knapsack.value)
+
     def render(self, background):
         for i in range(0, int(HEIGHT / SIZE)):
             for j in range(0, int(WIDTH / SIZE)):
@@ -408,6 +447,7 @@ class Maze():
             for item in self.items:
                 item.render(background)
 
+            self.knapsack.render(background)
 
 
 class Player():
@@ -476,8 +516,9 @@ class Game():
     def update(self, event):
         if not self.solved and not self.winner:
             self.player.update(self.maze.maze, event)
-        if (self.player.matrix_pos_x == self.maze.final_coordinate_x and self.player.matrix_pos_y == self.maze.final_coordinate_y):
-            self.winner = True
+
+        # if (self.player.matrix_pos_x == self.maze.final_coordinate_x and self.player.matrix_pos_y == self.maze.final_coordinate_y):
+            # self.winner = True
 
     def initial_game(self):
         self.background.fill(DARKBLUE)
@@ -515,7 +556,11 @@ class Game():
 
             text(self.background, "PRESS (R) TO RETRY GAME", WHITE, FONTSIZE_MAZE, 920, 200)
             text(self.background, "PRESS (Q) TO GIVE UP", WHITE, FONTSIZE_MAZE, 920, 230)
-            text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE, 920, 250)
+            text(self.background, "PRESS (T) IN ITEM TO TAKE", WHITE, FONTSIZE_MAZE, 920, 250)
+            text(self.background, "PRESS (F) IN GOAL TO DELIVER ITEMS", WHITE, FONTSIZE_MAZE, 920, 270)
+            text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE, 920, 300)
+
+            text(self.background, "KNAPSACK AVAILABLE " + str(self.maze.knapsack.avaliable), WHITE, FONTSIZE_MAZE + 15, 920, 700)
 
         elif self.winner:
             text(self.background, "YOU WIN", BLUE, FONTSIZE_MAZE + 3, 920, 210)
@@ -560,11 +605,27 @@ class Game():
                 self.background.fill(BLACK)
             for event in e:
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_f:
+                        if self.player.matrix_pos_x == self.final_coordinate_x and self.player.matrix_pos_y == self.final_coordinate_y:
+                            self.winner = True
+                    if event.key == pygame.K_t:
+                        for item in self.maze.items:
+                            if self.player.matrix_pos_x == item.matrix_pos_x and self.player.matrix_pos_y == item.matrix_pos_y:
+                                print("AVALIABLE")
+                                print(self.maze.knapsack.avaliable)
+                                print("PESO DO ITEM")
+                                print(item.weight)
+                                if self.maze.knapsack.avaliable >= item.weight:
+                                    self.maze.take_item(item)
+                                    text(self.background, "ITEM GOT CAUGHT", WHITE, FONTSIZE_MAZE, 920, 800)
+                                    pygame.display.update()
+                                    pygame.time.wait(1500)
+                                else: 
+                                    text(self.background, "COULD NOT PICK UP ITEM BECAUSE WEIGHT IS GREATER THAN AVAILABLE", WHITE, FONTSIZE_MAZE, 920, 800)
+                                    pygame.display.update()
+                                    pygame.time.wait(1500)
                     if event.key == pygame.K_r:
-                        self.solved = False
-                        self.winner = False
-                        self.start = False
-                        self.run()
+                        main()
                     if (not self.solved and event.key == pygame.K_q and not self.winner):
                         self.background.fill(BLACK)
                         self.end_of_game()
@@ -579,7 +640,6 @@ class Game():
 def main():
     mygame = Game()
     mygame.run()
-
 
 if __name__ == '__main__':
     try:
