@@ -33,7 +33,6 @@ FONTSIZE_MAZE = 20
 
 SIZE = 30
 
-
 def text(background, message, color, size, coordinate_x, coordinate_y):
     font = pygame.font.SysFont(None, size)
     txt = font.render(message, True, color)
