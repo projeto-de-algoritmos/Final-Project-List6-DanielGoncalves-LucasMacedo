@@ -1,4 +1,6 @@
-def knapsack(avaliable_weight, weights, values, items_quantity):
+def knapsack(avaliable_weight, weights, values):
+    items_quantity = len(weights)
+
     matrix = [[0 for x in range(avaliable_weight + 1)] for x in range(items_quantity + 1)]
 
     for item in range(1, items_quantity + 1):
@@ -10,7 +12,8 @@ def knapsack(avaliable_weight, weights, values, items_quantity):
 
     return matrix, matrix[items_quantity][avaliable_weight]
 
-def find_solution(matrix, weights, items_quantity, avaliable_weight):
+def find_solution(matrix, weights, avaliable_weight):
+    items_quantity = len(weights)
     init = matrix[items_quantity][avaliable_weight]
     items_taken = []
 
@@ -30,11 +33,10 @@ def find_solution(matrix, weights, items_quantity, avaliable_weight):
 values = [1, 6, 18, 22, 28] 
 weights = [1, 2, 5, 6, 7] 
 avaliable_weight = 11
-items_quantity = len(values)
 
-matrix, max_value = knapsack(avaliable_weight, weights, values, items_quantity)
+matrix, max_value = knapsack(avaliable_weight, weights, values)
 
-items_taken = find_solution(matrix, weights, items_quantity, avaliable_weight)
+items_taken = find_solution(matrix, weights, avaliable_weight)
 
 print(matrix)
 print(max_value)
