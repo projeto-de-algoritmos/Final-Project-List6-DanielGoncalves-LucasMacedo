@@ -40,29 +40,39 @@ def text(background, message, color, size, coordinate_x, coordinate_y):
 
 
 class Item():
-    def __init__(self, weight, value, name, image, pos_x, pos_y):
+    def __init__(self, weight, value, name, color, pos_x, pos_y):
         self.weight = weight
         self.value = value
 
         self.name = name
-        self.image = image
+        self.color = color
+
+        self.pos_x = pos_x * SIZE + BORDER_THICKNESS
+        self.pos_y = pos_y * SIZE + BORDER_THICKNESS
+
+        self.width = SIZE - 2 * BORDER_THICKNESS
+        self.height = SIZE - 2 * BORDER_THICKNESS
+
+    def render(self, background):
+        pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
+
+
+class Knapsack():
+    def __init__(self, avaliable, pos_x, pos_y, color):
+        self.items = []
+        self.avaliable = avaliable
 
         self.pos_x = pos_x
         self.pos_y = pos_y
 
-    def render(self, background):
-        # renderizar item no labirinto
-        pass
+        self.width = SIZE
+        self.height = SIZE
 
-
-class Knapsack():
-    def __init__(self):
-        self.items = []
-        self.avaliable = random.randint(10, 20)
+        self.color = color
 
     def render(self, background):
         # renderizar mochila na parte direita
-        pass
+        pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
 
 
 class NodeBorder():
@@ -125,8 +135,12 @@ class Maze():
         self.final_coordinate_x = final_x
         self.final_coordinate_y = final_y
 
+        self.items = []
+
         self.initialize_maze()
         self.define_initial_neighbors_not_visited()
+
+        self.generate_items()
 
     def initialize_maze(self):
         x = 0
@@ -141,7 +155,15 @@ class Maze():
 
     def generate_items(self):
         # funcao responsavel por criar os itens no labirinto, criar as 6 posicoes, 6 valores e 6 pesos e imagens
-        pass
+        # TODO: Imagem no lugar da cor e Nome
+        for i in range(6):
+            weight = random.randint(2, 30)
+            value = random.randint(5, 50)
+            pos_x = random.randint(0, int(WIDTH / SIZE) - 1)
+            pos_y = random.randint(0, int(WIDTH / SIZE) - 1)
+            color = WHITE
+            item = Item(weight, value, i + 1, color, pos_x, pos_y)
+            self.items.append(item)
 
     def add_edge(self, node, neighbor):
         neighbor.neighbors_connected.append(node)
@@ -378,9 +400,14 @@ class Maze():
         for i in range(0, int(HEIGHT / SIZE)):
             for j in range(0, int(WIDTH / SIZE)):
                 self.maze[i][j].render(background)
+
         if self.maze_created:
             self.maze[self.initial_coordinate_x][self.initial_coordinate_y].color = BEIGE
             self.maze[self.final_coordinate_x][self.final_coordinate_y].color = LIGHTBLUE
+
+            for item in self.items:
+                item.render(background)
+
 
 
 class Player():
