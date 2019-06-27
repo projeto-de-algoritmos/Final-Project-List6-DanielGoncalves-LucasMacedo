@@ -28,7 +28,7 @@ HEIGHT = 900
 SCREEN_SIZE = (WIDTH_TOTAL, HEIGHT_TOTAL)
 
 FONTSIZE_START = 50
-FONTSIZE_COMMANDS_INTIAL = 25
+FONTSIZE_COMMANDS_INTIAL = 30
 FONTSIZE_MAZE = 20
 
 SIZE = 45
@@ -82,7 +82,7 @@ class NodeBorder():
 
 class Node():
     def __init__(self, pos_x, pos_y):
-        self.color = DARKGRAY
+        self.color = BROWN
 
         self.id = None
         self.visited = False
@@ -217,7 +217,7 @@ class Maze():
     def dfs(self, background):
         current_cell = random.choice(random.choice(self.maze))
         current_cell.visited = True
-        current_cell.color = GREEN
+        current_cell.color = DARKBLUE
         stack = [current_cell]
         visited_cells = 1
 
@@ -227,25 +227,25 @@ class Maze():
                 random_neighbor = random.choice(
                     current_cell.neighbors_not_visited)
 
-                self.break_border(current_cell, random_neighbor, GREEN)
+                self.break_border(current_cell, random_neighbor, DARKBLUE)
 
                 self.add_edge(current_cell, random_neighbor)
                 current_cell = random_neighbor
                 stack.append(current_cell)
                 current_cell.visited = True
-                current_cell.color = GREEN
+                current_cell.color = DARKBLUE
                 visited_cells += 1
             else:
-                current_cell.color = YELLOW
+                current_cell.color = INTERMEDIARYORANGE
 
-                if current_cell.top_border.color == GREEN:
-                    current_cell.top_border.color = YELLOW
-                if current_cell.bottom_border.color == GREEN:
-                    current_cell.bottom_border.color = YELLOW
-                if current_cell.right_border.color == GREEN:
-                    current_cell.right_border.color = YELLOW
-                if current_cell.left_border.color == GREEN:
-                    current_cell.left_border.color = YELLOW
+                if current_cell.top_border.color == DARKBLUE:
+                    current_cell.top_border.color = INTERMEDIARYORANGE
+                if current_cell.bottom_border.color == DARKBLUE:
+                    current_cell.bottom_border.color = INTERMEDIARYORANGE
+                if current_cell.right_border.color == DARKBLUE:
+                    current_cell.right_border.color = INTERMEDIARYORANGE
+                if current_cell.left_border.color == DARKBLUE:
+                    current_cell.left_border.color = INTERMEDIARYORANGE
 
                 if len(stack) == 1:
                     stack.pop()
@@ -260,7 +260,7 @@ class Maze():
     def prim(self, background):
         initial_cell = random.choice(random.choice(self.maze))
         initial_cell.visited = True
-        initial_cell.color = YELLOW
+        initial_cell.color = INTERMEDIARYORANGE
 
         without_neighbors_visited = [initial_cell]
         visited_cells_number = 1
@@ -274,16 +274,16 @@ class Maze():
             if len(current_cell.neighbors_not_visited) > 0:
                 for cell_visited in without_neighbors_visited:
                     for cell in cell_visited.neighbors_not_visited:
-                        cell.color = GREEN
+                        cell.color = DARKBLUE
 
                 random_neighbor = random.choice(current_cell.neighbors_not_visited)
 
-                self.break_border(current_cell, random_neighbor, YELLOW)
+                self.break_border(current_cell, random_neighbor, INTERMEDIARYORANGE)
 
                 self.add_edge(current_cell, random_neighbor)
 
                 random_neighbor.visited = True
-                random_neighbor.color = YELLOW
+                random_neighbor.color = INTERMEDIARYORANGE
 
                 if len(random_neighbor.neighbors_not_visited) > 0:
                     without_neighbors_visited.append(random_neighbor)
@@ -310,10 +310,10 @@ class Maze():
             random_neighbor = random.choice(current_cell.neighbors_not_visited)
 
             if random_neighbor.id != current_cell.id:
-                current_cell.color = YELLOW
-                self.break_border(current_cell, random_neighbor, YELLOW)
+                current_cell.color = INTERMEDIARYORANGE
+                self.break_border(current_cell, random_neighbor, INTERMEDIARYORANGE)
                 self.add_edge(current_cell, random_neighbor)
-                random_neighbor.color = YELLOW
+                random_neighbor.color = INTERMEDIARYORANGE
                 id_neighbor = random_neighbor.id
 
                 for i in range(0, int(HEIGHT / SIZE)):
@@ -334,13 +334,13 @@ class Maze():
         while len(queue) > 0 and not find:
             queue[0].color = PINK
 
-            if queue[0].top_border.color == YELLOW:
+            if queue[0].top_border.color == INTERMEDIARYORANGE:
                 queue[0].top_border.color = PINK
-            if queue[0].bottom_border.color == YELLOW:
+            if queue[0].bottom_border.color == INTERMEDIARYORANGE:
                 queue[0].bottom_border.color = PINK
-            if queue[0].right_border.color == YELLOW:
+            if queue[0].right_border.color == INTERMEDIARYORANGE:
                 queue[0].right_border.color = PINK
-            if queue[0].left_border.color == YELLOW:
+            if queue[0].left_border.color == INTERMEDIARYORANGE:
                 queue[0].left_border.color = PINK
 
             u = queue.pop(0)
@@ -454,19 +454,19 @@ class Game():
 
     def initial_game(self):
         self.background.fill(DARKBLUE)
-        pygame.draw.rect(self.background, RED, [40, 40, 530, 580])
-        pygame.draw.rect(self.background, LIGHTBLUE, [40, 100, 530, 450])
-        pygame.draw.rect(self.background, BLACK, [110, 150, 380, 380])
-        pygame.draw.rect(self.background, DARKBLUE, [110, 150, 380, 100])
-        text(self.background, "KNAPSACK MAZE", LIGHTORANGE, FONTSIZE_START - 5, 125, 185)
-        text(self.background, "PRESS (ESC) TO CLOSE GAME", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL + 2, 165, 425)
+        pygame.draw.rect(self.background, RED, [50, 40, 1500, 580])
+        pygame.draw.rect(self.background, LIGHTBLUE, [50, 100, 1500, 450])
+        pygame.draw.rect(self.background, BLACK, [120, 150, 1350, 380])
+        pygame.draw.rect(self.background, DARKBLUE, [120, 150, 1350, 100])
+        text(self.background, "KNAPSACK MAZE", ORANGE, FONTSIZE_START, 650, 185)
+        text(self.background, "PRESS (ESC) TO CLOSE GAME", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 650, 480)
         pygame.display.update()
-        pygame.time.wait(300)
-        text(self.background, "PRESS (D) TO START GAME (DFS)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL + 2, 125, 350)
-        text(self.background, "PRESS (P) TO START GAME (PRIM'S)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL + 2, 125, 375)
-        text(self.background, "PRESS (K) TO START GAME (KRUSKAL)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL + 2, 125, 400)
+        pygame.time.wait(250)
+        text(self.background, "PRESS (D) TO START GAME (DFS)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 650, 330)
+        text(self.background, "PRESS (P) TO START GAME (PRIM'S)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 640, 370)
+        text(self.background, "PRESS (K) TO START GAME (KRUSKAL)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 630, 410)
         pygame.display.update()
-        pygame.time.wait(300)
+        pygame.time.wait(250)
 
     def end_of_game(self):
         self.maze.bfs(self.background, self.player)
