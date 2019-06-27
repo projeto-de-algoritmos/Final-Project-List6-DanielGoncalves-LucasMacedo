@@ -22,7 +22,7 @@ BEIGE = (178, 168, 152)
 BORDER_THICKNESS = 1.0
 
 HEIGHT_TOTAL = 900
-WIDTH_TOTAL = 1400
+WIDTH_TOTAL = 1600
 WIDTH = 900
 HEIGHT = 900
 SCREEN_SIZE = (WIDTH_TOTAL, HEIGHT_TOTAL)
@@ -31,7 +31,7 @@ FONTSIZE_START = 50
 FONTSIZE_COMMANDS_INTIAL = 25
 FONTSIZE_MAZE = 20
 
-SIZE = 30
+SIZE = 45
 
 def text(background, message, color, size, coordinate_x, coordinate_y):
     font = pygame.font.SysFont(None, size)
@@ -39,12 +39,40 @@ def text(background, message, color, size, coordinate_x, coordinate_y):
     background.blit(txt, [coordinate_x, coordinate_y])
 
 
+class Item():
+    def __init__(self, weight, value, name, image, pos_x, pos_y):
+        self.weight = weight
+        self.value = value
+
+        self.name = name
+        self.image = image
+
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+
+    def render(self, background):
+        # renderizar item no labirinto
+        pass
+
+
+class Knapsack():
+    def __init__(self):
+        self.items = []
+        self.avaliable = random.randint(10, 20)
+
+    def render(self, background):
+        # renderizar mochila na parte direita
+        pass
+
+
 class NodeBorder():
     def __init__(self, pos_x, pos_y, width, height):
         self.color = BLACK
         self.thickness = BORDER_THICKNESS
+
         self.pos_x = pos_x
         self.pos_y = pos_y
+
         self.width = width
         self.height = height
 
@@ -111,8 +139,11 @@ class Maze():
                 y += 1
             x += 1
 
+    def generate_items(self):
+        # funcao responsavel por criar os itens no labirinto, criar as 6 posicoes, 6 valores e 6 pesos e imagens
+        pass
+
     def add_edge(self, node, neighbor):
-        # edge_weight = random.randint(1, 20)
         neighbor.neighbors_connected.append(node)
         node.neighbors_connected.append(neighbor)
 
