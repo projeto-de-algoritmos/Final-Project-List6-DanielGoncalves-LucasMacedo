@@ -390,20 +390,10 @@ class Maze():
         self.maze_created = True
 
     def take_item(self, item):
-        print("antes AVAILABLE")
-        print(self.knapsack.avaliable)
-        print("antes VALUE")
-        print(self.knapsack.value)
-
         self.items.remove(item)
         self.knapsack.items.append(item)
         self.knapsack.avaliable -= item.weight
         self.knapsack.value += item.value
-
-        print("AVAILABLE")
-        print(self.knapsack.avaliable)
-        print("VALUE")
-        print(self.knapsack.value)
 
     def render(self, background):
         for i in range(0, int(HEIGHT / SIZE)):
@@ -475,6 +465,8 @@ class Game():
         self.maze = Maze(self.final_coordinate_x, self.final_coordinate_y)
         self.player = Player(self.final_coordinate_x, self.final_coordinate_y)
 
+        self.initial_avaliable = self.maze.knapsack.avaliable
+
         self.matrix, self.max_value = knapsack_iterative(self.maze.knapsack.avaliable, self.maze.weights, self.maze.values)
         self.items_taken = find_solution(self.matrix, self.maze.weights, self.maze.knapsack.avaliable)
 
@@ -536,7 +528,7 @@ class Game():
             text(self.background, "PRESS (Q) TO GIVE UP", WHITE, FONTSIZE_MAZE + 8, 920, 790)
             text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE + 8, 920, 820)
 
-            text(self.background, "KNAPSACK AVAILABLE: " + str(self.maze.knapsack.avaliable) + "KG", WHITE, FONTSIZE_MAZE + 15, 920, 460)
+            text(self.background, "KNAPSACK AVAILABLE: " + str(self.maze.knapsack.avaliable) + "KG OF " + str(self.initial_avaliable) + "KG", WHITE, FONTSIZE_MAZE + 15, 920, 460)
             text(self.background, "KNAPSACK VALUE: " + str(self.maze.knapsack.value) + "$", WHITE, FONTSIZE_MAZE + 15, 920, 500)
 
         elif self.winner:
@@ -601,10 +593,6 @@ class Game():
                     if event.key == pygame.K_t:
                         for item in self.maze.items:
                             if self.player.matrix_pos_x == item.matrix_pos_x and self.player.matrix_pos_y == item.matrix_pos_y:
-                                print("AVALIABLE")
-                                print(self.maze.knapsack.avaliable)
-                                print("PESO DO ITEM")
-                                print(item.weight)
                                 if self.maze.knapsack.avaliable >= item.weight:
                                     self.maze.take_item(item)
                                     text(self.background, "ITEM GOT CAUGHT", ORANGE, FONTSIZE_MAZE + 5, 920, 850)
