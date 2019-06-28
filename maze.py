@@ -160,7 +160,7 @@ class Maze():
         self.values = []
         self.names = []
 
-        self.knapsack = Knapsack(random.randint(10, 30), 678, 480)
+        self.knapsack = Knapsack(random.randint(15, 30), 678, 480)
 
         self.images_name = IMAGES_NAME.copy()
 
