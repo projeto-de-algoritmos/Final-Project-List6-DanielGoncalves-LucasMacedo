@@ -33,6 +33,8 @@ FONTSIZE_MAZE = 20
 
 SIZE = 45
 
+
+
 GOLD = pygame.transform.scale(pygame.image.load('gold.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
 RING = pygame.transform.scale(pygame.image.load('ring.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
 CLOCK = pygame.transform.scale(pygame.image.load('clock.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
@@ -41,7 +43,6 @@ BELT = pygame.transform.scale(pygame.image.load('belt.png'), (int(SIZE - 2 * BOR
 BATTERY = pygame.transform.scale(pygame.image.load('battery.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
 
 IMAGES = {'Gold': GOLD, 'Ring': RING, 'Clock': CLOCK, 'Shoes': SHOES, 'Belt': BELT, 'Battery': BATTERY}
-
 IMAGES_NAME = ['Gold', 'Ring', 'Clock', 'Shoes', 'Belt', 'Battery']
 
 def text(background, message, color, size, coordinate_x, coordinate_y):
@@ -68,11 +69,7 @@ class Item():
         self.height = SIZE - 2 * BORDER_THICKNESS
 
     def render(self, background):
-        # recta = gold_img.get_rect()
-        # recta = recta.move((self.pos_x, self.pos_y))
-        # background.blit(gold_img, recta)
         background.blit(self.image, self.image.get_rect().move((self.pos_x, self.pos_y)))
-        # pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
 
 
 class Knapsack():
@@ -92,8 +89,7 @@ class Knapsack():
     def render(self, background):
         # renderizar mochila na parte direita
         pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
-        # TODO renderizar itens que estao na mochila ao lado da mochila
-        temp_pos_x = self.pos_x + SIZE
+        temp_pos_x = self.pos_x + SIZE + 5
         for item in self.items:
             item.pos_y = self.pos_y
             item.pos_x = temp_pos_x + 5
@@ -152,12 +148,10 @@ class Node():
 
 
 class Maze():
-    def __init__(self, initial_x, initial_y, final_x, final_y):
+    def __init__(self, final_x, final_y):
         self.maze = []
         self.total_nodes = 0
         self.maze_created = False
-        self.initial_coordinate_x = initial_x
-        self.initial_coordinate_y = initial_y
         self.final_coordinate_x = final_x
         self.final_coordinate_y = final_y
 
@@ -183,7 +177,6 @@ class Maze():
 
     def generate_items(self):
         positions = []
-        positions.append((self.initial_coordinate_x, self.initial_coordinate_y))
         positions.append((self.final_coordinate_x, self.final_coordinate_y))
 
         for i in range(6):
@@ -456,7 +449,6 @@ class Maze():
                 self.maze[i][j].render(background)
 
         if self.maze_created:
-            self.maze[self.initial_coordinate_x][self.initial_coordinate_y].color = BEIGE
             self.maze[self.final_coordinate_x][self.final_coordinate_y].color = LIGHTBLUE
 
             for item in self.items:
@@ -515,25 +507,16 @@ class Game():
 
         self.background = pygame.display.set_mode(SCREEN_SIZE)
         pygame.display.set_caption('Knapsack Maze')
-        self.initial_coordinate_x = random.randint(0, int(HEIGHT / SIZE) - 1)
-        self.initial_coordinate_y = random.randint(0, int(WIDTH / SIZE) - 1)
 
         self.final_coordinate_x = random.randint(0, int(HEIGHT / SIZE) - 1)
         self.final_coordinate_y = random.randint(0, int(WIDTH / SIZE) - 1)
 
-        while self.final_coordinate_x == self.initial_coordinate_x or self.final_coordinate_y == self.initial_coordinate_y:
-            self.final_coordinate_x = random.randint(0, int(HEIGHT / SIZE) - 1)
-            self.final_coordinate_y = random.randint(0, int(WIDTH / SIZE) - 1)
-
-        self.maze = Maze(self.initial_coordinate_x, self.initial_coordinate_y, self.final_coordinate_x, self.final_coordinate_y)
-        self.player = Player(self.initial_coordinate_x, self.initial_coordinate_y)
+        self.maze = Maze(self.final_coordinate_x, self.final_coordinate_y)
+        self.player = Player(self.final_coordinate_x, self.final_coordinate_y)
 
     def update(self, event):
         if not self.solved and not self.winner:
             self.player.update(self.maze.maze, event)
-
-        # if (self.player.matrix_pos_x == self.maze.final_coordinate_x and self.player.matrix_pos_y == self.maze.final_coordinate_y):
-            # self.winner = True
 
     def initial_game(self):
         self.background.fill(DARKBLUE)
@@ -564,8 +547,6 @@ class Game():
         if not self.solved and not self.winner:
             pygame.draw.rect(self.background, RED, [920, 20, SIZE, SIZE])
             text(self.background, "- PLAYER", WHITE, FONTSIZE_MAZE, 920 + SIZE + 3, 20 + 6)
-            pygame.draw.rect(self.background, BEIGE, [920, 20 + SIZE + 1, SIZE, SIZE])
-            text(self.background, "- STARTING POINT", WHITE, FONTSIZE_MAZE, 920 + SIZE + 3, 20 + SIZE + 1 + 6)
             pygame.draw.rect(self.background, LIGHTBLUE, [920, 20 + 2 * SIZE + 2, SIZE, SIZE])
             text(self.background, "- GOAL", WHITE, FONTSIZE_MAZE, 920 + SIZE + 3, 20 + 2 * SIZE + 1 + 6)
 
