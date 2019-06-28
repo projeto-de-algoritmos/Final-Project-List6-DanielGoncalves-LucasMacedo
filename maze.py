@@ -502,12 +502,12 @@ class Game():
         self.player.render(self.background)
 
         if not self.winner:
-            text(self.background, "Você é um caçador de recompensas, que ganha a vida procurando itens valiosos", WHITE, FONTSIZE_MAZE, 920, 10)
-            text(self.background, "no lendário MAZE ADVENTURES e os vende na lojinha PAWM SHOP, localizada na saída do labirinto.", WHITE, FONTSIZE_MAZE, 920, 25)
-            text(self.background, "No entanto, você gosta muito da sua mochila da DORA AVENTUREIRA e nunca carrega mais peso do que", WHITE, FONTSIZE_MAZE, 920, 40)
-            text(self.background, "ela aguenta, pois senão ela corre o risco de estragar. Seu desafio então é sempre escolher", WHITE, FONTSIZE_MAZE, 920, 55)
-            text(self.background, "as melhores combinações de itens tentando ganhar o máximo de dinheiro possível,", WHITE, FONTSIZE_MAZE, 920, 70)
-            text(self.background, "mas sem carregar peso demais e acabar rasgando sua bela mochila.", WHITE, FONTSIZE_MAZE, 920, 85)
+            text(self.background, "You are a bounty hunter, who earns his living by searching for valuable items", WHITE, FONTSIZE_MAZE, 920, 10)
+            text(self.background, "in the legendary MAZE ADVENTURES and selling them at PAWNSHOP, located just outside the maze.", WHITE, FONTSIZE_MAZE, 920, 25)
+            text(self.background, "However, you are very fond of your DORA THE EXPLORER backpack and you never carry more weight", WHITE, FONTSIZE_MAZE, 920, 40)
+            text(self.background, "than it takes, otherwise you risk ruining it. Your challenge then is to always choose the best", WHITE, FONTSIZE_MAZE, 920, 55)
+            text(self.background, "combinations of items trying to earn as much money as possible but without carrying too much weight", WHITE, FONTSIZE_MAZE, 920, 70)
+            text(self.background, "and end up ripping your beautiful backpack.", WHITE, FONTSIZE_MAZE, 920, 85)
 
             x = 920
             y = 120
