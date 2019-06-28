@@ -34,14 +34,14 @@ FONTSIZE_MAZE = 20
 
 SIZE = 45
 
-BACKPACK = pygame.transform.scale(pygame.image.load('backpack.png'), (2 * SIZE, 2 * SIZE))
+BACKPACK = pygame.transform.scale(pygame.image.load('images/backpack.png'), (2 * SIZE, 2 * SIZE))
 
-GOLD = pygame.transform.scale(pygame.image.load('gold.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
-RING = pygame.transform.scale(pygame.image.load('ring.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
-CLOCK = pygame.transform.scale(pygame.image.load('clock.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
-SHOES = pygame.transform.scale(pygame.image.load('shoes.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
-BELT = pygame.transform.scale(pygame.image.load('belt.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
-BATTERY = pygame.transform.scale(pygame.image.load('battery.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+GOLD = pygame.transform.scale(pygame.image.load('images/gold.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+RING = pygame.transform.scale(pygame.image.load('images/ring.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+CLOCK = pygame.transform.scale(pygame.image.load('images/clock.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+SHOES = pygame.transform.scale(pygame.image.load('images/shoes.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+BELT = pygame.transform.scale(pygame.image.load('images/belt.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+BATTERY = pygame.transform.scale(pygame.image.load('images/battery.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
 
 IMAGES = {'Gold': GOLD, 'Ring': RING, 'Clock': CLOCK, 'Shoes': SHOES, 'Belt': BELT, 'Battery': BATTERY}
 IMAGES_NAME = ['Gold', 'Ring', 'Clock', 'Shoes', 'Belt', 'Battery']
