@@ -33,6 +33,17 @@ FONTSIZE_MAZE = 20
 
 SIZE = 45
 
+GOLD = pygame.transform.scale(pygame.image.load('gold.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+RING = pygame.transform.scale(pygame.image.load('ring.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+CLOCK = pygame.transform.scale(pygame.image.load('clock.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+SHOES = pygame.transform.scale(pygame.image.load('shoes.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+BELT = pygame.transform.scale(pygame.image.load('belt.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+BATTERY = pygame.transform.scale(pygame.image.load('battery.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
+
+IMAGES = {'Gold': GOLD, 'Ring': RING, 'Clock': CLOCK, 'Shoes': SHOES, 'Belt': BELT, 'Battery': BATTERY}
+
+IMAGES_NAME = ['Gold', 'Ring', 'Clock', 'Shoes', 'Belt', 'Battery']
+
 def text(background, message, color, size, coordinate_x, coordinate_y):
     font = pygame.font.SysFont(None, size)
     txt = font.render(message, True, color)
@@ -40,12 +51,12 @@ def text(background, message, color, size, coordinate_x, coordinate_y):
 
 
 class Item():
-    def __init__(self, weight, value, name, color, pos_x, pos_y):
+    def __init__(self, weight, value, name, image, pos_x, pos_y):
         self.weight = weight
         self.value = value
 
         self.name = name
-        self.color = color
+        self.image = image
 
         self.pos_x = pos_x * SIZE + BORDER_THICKNESS
         self.pos_y = pos_y * SIZE + BORDER_THICKNESS
@@ -57,7 +68,11 @@ class Item():
         self.height = SIZE - 2 * BORDER_THICKNESS
 
     def render(self, background):
-        pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
+        # recta = gold_img.get_rect()
+        # recta = recta.move((self.pos_x, self.pos_y))
+        # background.blit(gold_img, recta)
+        background.blit(self.image, self.image.get_rect().move((self.pos_x, self.pos_y)))
+        # pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
 
 
 class Knapsack():
@@ -167,8 +182,6 @@ class Maze():
             x += 1
 
     def generate_items(self):
-        # funcao responsavel por criar os itens no labirinto, criar as 6 posicoes, 6 valores e 6 pesos e imagens
-        # TODO: Imagem no lugar da cor e Nome
         positions = []
         positions.append((self.initial_coordinate_x, self.initial_coordinate_y))
         positions.append((self.final_coordinate_x, self.final_coordinate_y))
@@ -184,8 +197,10 @@ class Maze():
                 pos_y = random.randint(0, int(WIDTH / SIZE) - 1)
             positions.append((pos_x, pos_y))
 
-            color = WHITE
-            item = Item(weight, value, i + 1, color, pos_x, pos_y)
+            random.shuffle(IMAGES_NAME)
+            name = IMAGES_NAME.pop()
+            image = IMAGES[name]
+            item = Item(weight, value, name, image, pos_x, pos_y)
             self.items.append(item)
 
     def add_edge(self, node, neighbor):
@@ -541,7 +556,7 @@ class Game():
 
     def render(self):
         self.background.fill(BLACK)
-
+        
         self.maze.render(self.background)
 
         self.player.render(self.background)
@@ -617,11 +632,11 @@ class Game():
                                 print(item.weight)
                                 if self.maze.knapsack.avaliable >= item.weight:
                                     self.maze.take_item(item)
-                                    text(self.background, "ITEM GOT CAUGHT", WHITE, FONTSIZE_MAZE, 920, 800)
+                                    text(self.background, "ITEM GOT CAUGHT", WHITE, FONTSIZE_MAZE + 5, 920, 800)
                                     pygame.display.update()
                                     pygame.time.wait(1500)
                                 else: 
-                                    text(self.background, "COULD NOT PICK UP ITEM BECAUSE WEIGHT IS GREATER THAN AVAILABLE", WHITE, FONTSIZE_MAZE, 920, 800)
+                                    text(self.background, "COULD NOT PICK UP ITEM BECAUSE WEIGHT IS GREATER THAN AVAILABLE", WHITE, FONTSIZE_MAZE + 5, 920, 800)
                                     pygame.display.update()
                                     pygame.time.wait(1500)
                     if event.key == pygame.K_r:
