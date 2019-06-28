@@ -22,10 +22,10 @@ BEIGE = (178, 168, 152)
 
 BORDER_THICKNESS = 1.0
 
-HEIGHT_TOTAL = 900
-WIDTH_TOTAL = 1600
-WIDTH = 900
-HEIGHT = 900
+HEIGHT_TOTAL = 700
+WIDTH_TOTAL = 1200
+WIDTH = 675
+HEIGHT = 675
 SCREEN_SIZE = (WIDTH_TOTAL, HEIGHT_TOTAL)
 
 FONTSIZE_START = 50
@@ -160,7 +160,7 @@ class Maze():
         self.values = []
         self.names = []
 
-        self.knapsack = Knapsack(random.randint(10, 30), 920, 550)
+        self.knapsack = Knapsack(random.randint(10, 30), 678, 480)
 
         self.images_name = IMAGES_NAME.copy()
 
@@ -316,7 +316,7 @@ class Maze():
                     stack.pop()
                     current_cell = stack[-1]
             self.render(background)
-            text(background, "GENERATING MAZE", WHITE, FONTSIZE_COMMANDS_INTIAL, 950, 20)
+            text(background, "GENERATING MAZE", WHITE, FONTSIZE_COMMANDS_INTIAL, 700, 20)
             pygame.display.update()
         self.maze_created = True
 
@@ -354,7 +354,7 @@ class Maze():
                 visited_cells_number += 1
 
             self.render(background)
-            text(background, "GENERATING MAZE", WHITE, FONTSIZE_COMMANDS_INTIAL, 920, 20)
+            text(background, "GENERATING MAZE", WHITE, FONTSIZE_COMMANDS_INTIAL, 700, 20)
             pygame.display.update()
         self.maze_created = True
 
@@ -385,7 +385,7 @@ class Maze():
                             self.maze[i][j].id = current_cell.id
 
             self.render(background)
-            text(background, "GENERATING MAZE", WHITE, FONTSIZE_COMMANDS_INTIAL, 920, 20)
+            text(background, "GENERATING MAZE", WHITE, FONTSIZE_COMMANDS_INTIAL, 700, 20)
             pygame.display.update()
         self.maze_created = True
 
@@ -480,17 +480,17 @@ class Game():
 
     def initial_game(self):
         self.background.fill(DARKBLUE)
-        pygame.draw.rect(self.background, RED, [50, 40, 1500, 580])
-        pygame.draw.rect(self.background, LIGHTBLUE, [50, 100, 1500, 450])
-        pygame.draw.rect(self.background, BLACK, [120, 150, 1350, 380])
-        pygame.draw.rect(self.background, DARKBLUE, [120, 150, 1350, 100])
-        text(self.background, "KNAPSACK MAZE", ORANGE, FONTSIZE_START, 650, 185)
-        text(self.background, "PRESS (ESC) TO CLOSE GAME", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 650, 480)
+        pygame.draw.rect(self.background, RED, [50, 40, 1000, 580])
+        pygame.draw.rect(self.background, LIGHTBLUE, [50, 100, 1000, 450])
+        pygame.draw.rect(self.background, BLACK, [120, 150, 850, 380])
+        pygame.draw.rect(self.background, DARKBLUE, [120, 150, 850, 100])
+        text(self.background, "KNAPSACK MAZE", ORANGE, FONTSIZE_START, 410, 185)
+        text(self.background, "PRESS (ESC) TO CLOSE GAME", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 410, 480)
         pygame.display.update()
         pygame.time.wait(250)
-        text(self.background, "PRESS (D) TO START GAME (DFS)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 650, 330)
-        text(self.background, "PRESS (P) TO START GAME (PRIM'S)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 640, 370)
-        text(self.background, "PRESS (K) TO START GAME (KRUSKAL)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 630, 410)
+        text(self.background, "PRESS (D) TO START GAME (DFS)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 400, 330)
+        text(self.background, "PRESS (P) TO START GAME (PRIM'S)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 390, 370)
+        text(self.background, "PRESS (K) TO START GAME (KRUSKAL)", INTERMEDIARYORANGE, FONTSIZE_COMMANDS_INTIAL, 380, 410)
         pygame.display.update()
         pygame.time.wait(250)
 
@@ -502,14 +502,15 @@ class Game():
         self.player.render(self.background)
 
         if not self.winner:
-            text(self.background, "You are a bounty hunter, who earns his living by searching for valuable items", WHITE, FONTSIZE_MAZE, 920, 10)
-            text(self.background, "in the legendary MAZE ADVENTURES and selling them at PAWNSHOP, located just outside the maze.", WHITE, FONTSIZE_MAZE, 920, 25)
-            text(self.background, "However, you are very fond of your DORA THE EXPLORER backpack and you never carry more weight", WHITE, FONTSIZE_MAZE, 920, 40)
-            text(self.background, "than it takes, otherwise you risk ruining it. Your challenge then is to always choose the best", WHITE, FONTSIZE_MAZE, 920, 55)
-            text(self.background, "combinations of items trying to earn as much money as possible but without carrying too much weight", WHITE, FONTSIZE_MAZE, 920, 70)
-            text(self.background, "and end up ripping your beautiful backpack.", WHITE, FONTSIZE_MAZE, 920, 85)
+            text(self.background, "You are a bounty hunter, who earns his living by searching for valuable items", WHITE, FONTSIZE_MAZE, 678, 10)
+            text(self.background, "in the legendary MAZE ADVENTURES and selling them at PAWNSHOP, located just", WHITE, FONTSIZE_MAZE, 678, 25)
+            text(self.background, "outside the maze. However, you are very fond of your DORA THE EXPLORER", WHITE, FONTSIZE_MAZE, 678, 40)
+            text(self.background, "backpack and you never carry more weight than it takes, otherwise you", WHITE, FONTSIZE_MAZE, 678, 55)
+            text(self.background, "risk ruining it. Your challenge then is to always choose the best", WHITE, FONTSIZE_MAZE, 678, 70)
+            text(self.background, "combinations of items trying to earn as much money as possible but", WHITE, FONTSIZE_MAZE, 678, 85)
+            text(self.background, "without carrying too much weight and end up ripping your beatiful backpack.", WHITE, FONTSIZE_MAZE, 678, 100)
 
-            x = 920
+            x = 678
             y = 120
             for item in self.maze.items_algorithm:
                 self.background.blit(item.image, item.image.get_rect().move((x, y)))
@@ -517,25 +518,25 @@ class Game():
                 text(self.background, "Weight: " + str(item.weight) + "KG", WHITE, FONTSIZE_MAZE + 5, x + SIZE + 170, y + 15)
                 y += SIZE + 5
 
-            pygame.draw.rect(self.background, RED, [1400, 120, SIZE, SIZE])
-            text(self.background, "- PLAYER", WHITE, FONTSIZE_MAZE, 1400 + SIZE + 3, 120 + 10)
-            pygame.draw.rect(self.background, LIGHTBLUE, [1400, 120 + SIZE + 2, SIZE, SIZE])
-            text(self.background, "- MARKET", WHITE, FONTSIZE_MAZE, 1400 + SIZE + 3, 120 + SIZE + 1 + 10)
+            pygame.draw.rect(self.background, RED, [1050, 120, SIZE, SIZE])
+            text(self.background, "- PLAYER", WHITE, FONTSIZE_MAZE, 1050 + SIZE + 3, 120 + 10)
+            pygame.draw.rect(self.background, LIGHTBLUE, [1050, 120 + SIZE + 2, SIZE, SIZE])
+            text(self.background, "- MARKET", WHITE, FONTSIZE_MAZE, 1050 + SIZE + 3, 120 + SIZE + 1 + 10)
 
-            text(self.background, "PRESS (T) IN ITEM TO TAKE", WHITE, FONTSIZE_MAZE + 8, 920, 700)
-            text(self.background, "PRESS (F) IN GOAL TO DELIVER ITEMS", WHITE, FONTSIZE_MAZE + 8, 920, 730)
-            text(self.background, "PRESS (R) TO RETRY GAME", WHITE, FONTSIZE_MAZE + 8, 920, 760)
-            text(self.background, "PRESS (Q) TO GIVE UP", WHITE, FONTSIZE_MAZE + 8, 920, 790)
-            text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE + 8, 920, 820)
+            text(self.background, "PRESS (T) IN ITEM TO TAKE", WHITE, FONTSIZE_MAZE, 678, 580)
+            text(self.background, "PRESS (F) IN GOAL TO DELIVER ITEMS", WHITE, FONTSIZE_MAZE, 678, 600)
+            text(self.background, "PRESS (R) TO RETRY GAME", WHITE, FONTSIZE_MAZE, 678, 620)
+            text(self.background, "PRESS (Q) TO GIVE UP", WHITE, FONTSIZE_MAZE, 678, 640)
+            text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE, 678, 660)
 
-            text(self.background, "KNAPSACK AVAILABLE: " + str(self.maze.knapsack.avaliable) + "KG OF " + str(self.initial_avaliable) + "KG", WHITE, FONTSIZE_MAZE + 15, 920, 460)
-            text(self.background, "KNAPSACK VALUE: " + str(self.maze.knapsack.value) + "$", WHITE, FONTSIZE_MAZE + 15, 920, 500)
+            text(self.background, "KNAPSACK AVAILABLE: " + str(self.maze.knapsack.avaliable) + "KG OF " + str(self.initial_avaliable) + "KG", WHITE, FONTSIZE_MAZE + 10, 678, 430)
+            text(self.background, "KNAPSACK VALUE: " + str(self.maze.knapsack.value) + "$", WHITE, FONTSIZE_MAZE + 10, 678, 450)
 
         elif self.winner:
-            text(self.background, "BETTER ITEMS TO CAUGHT: " + str(self.items_taken_names), WHITE, FONTSIZE_MAZE + 8, 920, 700)
-            text(self.background, "MAXIMUM VALUE: " + str(self.max_value) + "$", WHITE, FONTSIZE_MAZE + 8, 920, 730)
+            text(self.background, "BETTER ITEMS TO CAUGHT: " + str(self.items_taken_names), WHITE, FONTSIZE_MAZE, 678, 580)
+            text(self.background, "MAXIMUM VALUE: " + str(self.max_value) + "$", WHITE, FONTSIZE_MAZE, 678, 620)
 
-            x = 920
+            x = 678
             y = 120
             for item in self.maze.items_algorithm:
                 self.background.blit(item.image, item.image.get_rect().move((x, y)))
@@ -545,13 +546,13 @@ class Game():
             
             if self.maze.knapsack.value == self.max_value:
 
-                text(self.background, "YOU WIN", BLUE, FONTSIZE_MAZE + 15, 1000, 800)
-                text(self.background, "PRESS (R) TO RETRY GAME", WHITE, FONTSIZE_MAZE + 8, 940, 830)
-                text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE + 8, 920, 860)
+                text(self.background, "YOU WIN", BLUE, FONTSIZE_MAZE + 15, 970, 640)
+                text(self.background, "PRESS (R) TO RETRY GAME", WHITE, FONTSIZE_MAZE + 8, 910, 660)
+                text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE + 8, 890, 680)
             else:
-                text(self.background, "YOU LOSE", RED, FONTSIZE_MAZE + 15, 990, 800)
-                text(self.background, "PRESS (R) TO RETRY GAME", WHITE, FONTSIZE_MAZE + 8, 940, 830)
-                text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE + 8, 920, 860)
+                text(self.background, "YOU LOSE", RED, FONTSIZE_MAZE + 15, 965, 640)
+                text(self.background, "PRESS (R) TO RETRY GAME", WHITE, FONTSIZE_MAZE + 8, 910, 660)
+                text(self.background, "PRESS (ESC) TO CLOSE GAME", WHITE, FONTSIZE_MAZE + 8, 890, 680)
 
         pygame.display.update()
 
@@ -595,11 +596,11 @@ class Game():
                             if self.player.matrix_pos_x == item.matrix_pos_x and self.player.matrix_pos_y == item.matrix_pos_y:
                                 if self.maze.knapsack.avaliable >= item.weight:
                                     self.maze.take_item(item)
-                                    text(self.background, "ITEM GOT CAUGHT", ORANGE, FONTSIZE_MAZE + 5, 920, 850)
+                                    text(self.background, "ITEM GOT CAUGHT", ORANGE, FONTSIZE_MAZE + 5, 678, 680)
                                     pygame.display.update()
                                     pygame.time.wait(1500)
                                 else: 
-                                    text(self.background, "COULD NOT PICK UP ITEM BECAUSE WEIGHT IS GREATER THAN AVAILABLE", ORANGE, FONTSIZE_MAZE + 5, 920, 850)
+                                    text(self.background, "COULD NOT PICK UP ITEM BECAUSE WEIGHT IS GREATER THAN AVAILABLE", ORANGE, FONTSIZE_MAZE, 678, 680)
                                     pygame.display.update()
                                     pygame.time.wait(1500)
                     if event.key == pygame.K_r:
