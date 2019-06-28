@@ -27,3 +27,17 @@ Your challenge then is to always choose the best combinations of items trying to
 
 * In this branch is available the version of the game for Full HD resolution.
 * To use the version with HD resolution, go to the RESOLUTION_HD branch.
+
+## Screenshots
+
+![tela_inicial](images/tela_inicial.jpg)
+Home screen, you can choose between three maze generation algorithms.
+
+![gerando_labirinto](images/criando_maze.jpg)
+Generating Labyrinth
+
+![tela_do_jogo](images/jogo.jpg)
+Game screen, you can pick up the items when you are on top with it (T), to finish the game just go to the market and press the (F) key.
+
+![tela_final](images/final.jpg)
+When you give up by pressing the (Q) key or ending the game, the program shows the best items to pick up and the best possible value.
