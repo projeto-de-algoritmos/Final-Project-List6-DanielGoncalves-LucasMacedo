@@ -33,7 +33,7 @@ FONTSIZE_MAZE = 20
 
 SIZE = 45
 
-
+BACKPACK = pygame.transform.scale(pygame.image.load('backpack.png'), (2 * SIZE, 2 * SIZE))
 
 GOLD = pygame.transform.scale(pygame.image.load('gold.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
 RING = pygame.transform.scale(pygame.image.load('ring.png'), (int(SIZE - 2 * BORDER_THICKNESS), int(SIZE - 2 * BORDER_THICKNESS)))
@@ -88,8 +88,8 @@ class Knapsack():
 
     def render(self, background):
         # renderizar mochila na parte direita
-        pygame.draw.rect(background, self.color, [self.pos_x, self.pos_y, self.width, self.height])
-        temp_pos_x = self.pos_x + SIZE + 5
+        background.blit(BACKPACK, BACKPACK.get_rect().move((self.pos_x, self.pos_y)))
+        temp_pos_x = self.pos_x + 2 * SIZE + 5
         for item in self.items:
             item.pos_y = self.pos_y
             item.pos_x = temp_pos_x + 5
